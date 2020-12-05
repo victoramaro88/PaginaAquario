@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Servicos } from 'src/app/Services/servicos.service';
-import {Message,MessageService} from 'primeng/api';
+import {MessageService} from 'primeng/api';
 
 @Component({
   selector: 'app-login',

@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { ConfigAquarioModel } from '../Models/configAquario.model';
 
 @Injectable({
   providedIn: 'root'
@@ -19,5 +20,9 @@ export class Servicos {
 
     public Logar(username: string, password: string) {
       return this.http.get<any>(`${environment.urlAPI}LoginUsuario/LoginUsuario/` + username + '/' + password);
+    }
+
+    public GetValores() {
+      return this.http.get<ConfigAquarioModel>(`${environment.urlAPI}Config/RetornaInfo`);
     }
   }

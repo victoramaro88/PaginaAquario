@@ -10,6 +10,7 @@ import {MessagesModule} from 'primeng/messages';
 import {MessageModule} from 'primeng/message';
 import {BlockUIModule} from 'primeng/blockui';
 import {ProgressBarModule} from 'primeng/progressbar';
+import {InputSwitchModule} from 'primeng/inputswitch';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -33,7 +34,8 @@ import { HomeComponent } from './pages/home/home.component';
     MessagesModule,
     MessageModule,
     BlockUIModule,
-    ProgressBarModule
+    ProgressBarModule,
+    InputSwitchModule
   ],
   providers: [],
   bootstrap: [AppComponent]
