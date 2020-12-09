@@ -8,8 +8,8 @@ export class ConfigAquarioModel {
   tempMinAquec: number;
   tempDesliga: number;
   flagIluminacao: boolean;
-  flagAquecedor: string;
-  flagResfriador: string;
-  flagEncher: string;
-  flagEsvaziar: string;
+  flagAquecedor: boolean;
+  flagResfriador: boolean;
+  flagEncher: boolean;
+  flagEsvaziar: boolean;
 }

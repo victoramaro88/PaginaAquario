@@ -5,101 +5,135 @@
     <p-messages [(value)]="msgs"></p-messages>
     <div class="col-12 text-center mt-4">
       <h4>INFORMAÇÕES:</h4>
-      <!-- <p>Temperatura: {{valoresRetorno.temperatura}} C</p> -->
-      <!-- <p>Iluminação: <p-inputSwitch [(ngModel)]="valoresRetorno.flagIluminacao"></p-inputSwitch></p> -->
-      <!-- <p>Local: {{valoresRetorno.descLocal}}</p>
-        <p>Iluminação: <span *ngIf="valoresRetorno.flagIluminacao" class="p-tag p-tag-success">Ligado</span>
-          <span *ngIf="!valoresRetorno.flagIluminacao" class="p-tag p-tag-danger">Desligado</span>
-        </p> -->
 
-        <div class="container mt-3">
-          <!-- ÚLTIMA ATUALIZAÇÃO -->
-          <div class="row">
-            <div class="col-12 text-center mb-3">
-              <small>(Atualizado em: {{valoresRetorno.dataAtualizacao}})</small>
-            </div>
+      <div *ngIf="!flagEditarParametros" class="container mt-3">
+        <!-- ÚLTIMA ATUALIZAÇÃO -->
+        <div class="row">
+          <div class="col-12 text-center mb-3">
+            <small>(Atualizado em: {{valoresRetorno.dataAtualizacao}})</small>
           </div>
-          <!-- TEMPERATURA -->
-          <div class="row mb-2">
-            <div class="col-6 text-right">
-              Temperatura:
-            </div>
-            <div class="col-6 text-left">
-              {{valoresRetorno.temperatura}} °C
-            </div>
+        </div>
+        <!-- TEMPERATURA -->
+        <div class="row mb-2">
+          <div class="col-6 text-right">
+            Temperatura:
           </div>
-          <!-- LOCAL -->
-          <div class="row mb-2">
-            <div class="col-6 text-right">
-              Local:
-            </div>
-            <div class="col-6 text-left">
-              {{valoresRetorno.descLocal}}
-            </div>
+          <div class="col-6 text-left">
+            {{valoresRetorno.temperatura}} °C
           </div>
-          <!-- ILUMINAÇÃO -->
-          <div class="row mb-2">
-            <div class="col-6 text-right">
-              Iluminação:
-            </div>
-            <div class="col-6 text-left">
-              <span *ngIf="valoresRetorno.flagIluminacao" class="p-tag p-tag-success">Ligado</span>
-              <span *ngIf="!valoresRetorno.flagIluminacao" class="p-tag p-tag-danger">Desligado</span>
-            </div>
+        </div>
+        <!-- LOCAL -->
+        <div class="row mb-2">
+          <div class="col-6 text-right">
+            Local:
           </div>
-          <!-- AQUECEDOR -->
-          <div class="row mb-2">
-            <div class="col-6 text-right">
-              Aquecedor:
-            </div>
-            <div class="col-6 text-left">
-              <span *ngIf="valoresRetorno.flagAquecedor" class="p-tag p-tag-success">Ligado</span>
-              <span *ngIf="!valoresRetorno.flagAquecedor" class="p-tag p-tag-danger">Desligado</span>
-            </div>
+          <div class="col-6 text-left">
+            {{valoresRetorno.descLocal}}
           </div>
-          <!-- RESFRIADOR -->
-          <div class="row mb-2">
-            <div class="col-6 text-right">
-              Resfriador:
-            </div>
-            <div class="col-6 text-left">
-              <span *ngIf="valoresRetorno.flagResfriador" class="p-tag p-tag-success">Ligado</span>
-              <span *ngIf="!valoresRetorno.flagResfriador" class="p-tag p-tag-danger">Desligado</span>
-            </div>
+        </div>
+        <!-- ILUMINAÇÃO -->
+        <div class="row mb-2">
+          <div class="col-6 text-right">
+            Iluminação:
           </div>
-          <!-- NÍVEL DE ÁGUA -->
-          <div class="row mb-2">
-            <div class="col-6 text-right">
-              Nível de Água:
-            </div>
-            <div class="col-6 text-left">
-              <span *ngIf="valoresRetorno.flagEncher" class="p-tag p-tag-success">Ligado</span>
-              <span *ngIf="!valoresRetorno.flagEncher" class="p-tag p-tag-danger">Desligado</span>
-            </div>
+          <div class="col-6 text-left">
+            <span *ngIf="valoresRetorno.flagIluminacao" class="p-tag p-tag-success">Ligado</span>
+            <span *ngIf="!valoresRetorno.flagIluminacao" class="p-tag p-tag-danger">Desligado</span>
           </div>
-          <!-- DRENO -->
-          <div class="row mb-2">
-            <div class="col-6 text-right">
-              Dreno:
-            </div>
-            <div class="col-6 text-left">
-              <span *ngIf="valoresRetorno.flagEsvaziar" class="p-tag p-tag-success">Ligado</span>
-              <span *ngIf="!valoresRetorno.flagEsvaziar" class="p-tag p-tag-danger">Desligado</span>
-            </div>
+        </div>
+        <!-- AQUECEDOR -->
+        <div class="row mb-2">
+          <div class="col-6 text-right">
+            Aquecedor:
           </div>
-
-          <!-- descLocal: string;
-            dataAtualizacao: Date;
-            infoMACUltimoAcesso: string;
-            temperatura: number;
-            tempMaxResfr: number;
-            tempMinAquec: number;
-            tempDesliga: number;
-            flagIluminacao: boolean;
-            flagAquecedor: string;
-            flagResfriador: string;
-            flagEncher: string;
-            flagEsvaziar: string; -->
+          <div class="col-6 text-left">
+            <span *ngIf="valoresRetorno.flagAquecedor" class="p-tag p-tag-success">Ligado</span>
+            <span *ngIf="!valoresRetorno.flagAquecedor" class="p-tag p-tag-danger">Desligado</span>
+          </div>
+        </div>
+        <!-- RESFRIADOR -->
+        <div class="row mb-2">
+          <div class="col-6 text-right">
+            Resfriador:
+          </div>
+          <div class="col-6 text-left">
+            <span *ngIf="valoresRetorno.flagResfriador" class="p-tag p-tag-success">Ligado</span>
+            <span *ngIf="!valoresRetorno.flagResfriador" class="p-tag p-tag-danger">Desligado</span>
+          </div>
+        </div>
+        <!-- BOMDA D'ÁGUA -->
+        <div class="row mb-2">
+          <div class="col-6 text-right">
+            Bomba D'Água:
+          </div>
+          <div class="col-6 text-left">
+            <span *ngIf="valoresRetorno.flagEncher" class="p-tag p-tag-success">Ligado</span>
+            <span *ngIf="!valoresRetorno.flagEncher" class="p-tag p-tag-danger">Desligado</span>
+          </div>
+        </div>
+        <!-- DRENO -->
+        <div class="row mb-2">
+          <div class="col-6 text-right">
+            Dreno:
+          </div>
+          <div class="col-6 text-left">
+            <span *ngIf="valoresRetorno.flagEsvaziar" class="p-tag p-tag-success">Ligado</span>
+            <span *ngIf="!valoresRetorno.flagEsvaziar" class="p-tag p-tag-danger">Desligado</span>
           </div>
         </div>
       </div>
+
+      <div *ngIf="flagEditarParametros" class="container mt-3">
+
+        <!-- ILUMINAÇÃO -->
+        <div class="row mb-2">
+          <div class="col-6 text-right pt-2">
+            <strong>Iluminação:</strong>
+          </div>
+          <div class="col-6 text-left" style="margin-left: -25px;">
+            <button (click)="AlteraStatusFlag('ILUMINAÇÃO')" *ngIf="valoresNovos.flagIluminacao" pButton pRipple type="button" label="Ligado" class="p-button-raised p-button-success"></button>
+            <button (click)="AlteraStatusFlag('ILUMINAÇÃO')" *ngIf="!valoresNovos.flagIluminacao" pButton pRipple type="button" label="Desligado" class="p-button-raised p-button-danger"></button>
+          </div>
+        </div>
+
+        <!-- AQUECEDOR -->
+        <div class="row mb-2">
+          <div class="col-6 text-right pt-2">
+            <strong>Aquecedor:</strong>
+          </div>
+          <div class="col-6 text-left" style="margin-left: -25px;">
+            <button (click)="AlteraStatusFlag('AQUECEDOR')" *ngIf="valoresNovos.flagAquecedor" pButton pRipple type="button" label="Ligado" class="p-button-raised p-button-success"></button>
+            <button (click)="AlteraStatusFlag('AQUECEDOR')" *ngIf="!valoresNovos.flagAquecedor" pButton pRipple type="button" label="Desligado" class="p-button-raised p-button-danger"></button>
+          </div>
+        </div>
+
+        <!-- RESFRIADOR -->
+        <div class="row mb-2">
+          <div class="col-6 text-right pt-2">
+            <strong>Resfriador:</strong>
+          </div>
+          <div class="col-6 text-left" style="margin-left: -25px;">
+            <button (click)="AlteraStatusFlag('RESFRIADOR')" *ngIf="valoresNovos.flagResfriador" pButton pRipple type="button" label="Ligado" class="p-button-raised p-button-success"></button>
+            <button (click)="AlteraStatusFlag('RESFRIADOR')" *ngIf="!valoresNovos.flagResfriador" pButton pRipple type="button" label="Desligado" class="p-button-raised p-button-danger"></button>
+          </div>
+        </div>
+
+        <!-- BOMBA DE ÁGUA -->
+        <div class="row mb-2">
+          <div class="col-6 text-right pt-2">
+            <strong>Bomba de água:</strong>
+          </div>
+          <div class="col-6 text-left" style="margin-left: -25px;">
+
+            <button (click)="AlteraStatusFlag('BOMBADEAGUA')" *ngIf="valoresNovos.flagEncher" pButton pRipple type="button" label="Ligado" class="p-button-raised p-button-success"></button>
+            <button (click)="AlteraStatusFlag('BOMBADEAGUA')" *ngIf="!valoresNovos.flagEncher" pButton pRipple type="button" label="Desligado" class="p-button-raised p-button-danger"></button>
+          </div>
+        </div>
+
+        <button *ngIf="flagEditarParametros" (click)="flagEditarParametros = !flagEditarParametros" pButton pRipple type="button" label="Voltar" class="p-button-raised p-button-info mt-3"></button>
+      </div>
+
+      <button *ngIf="!flagEditarParametros" (click)="flagEditarParametros = !flagEditarParametros; valoresNovos = valoresRetorno;" pButton pRipple type="button" label="Editar Parâmetros" class="p-button-raised p-button-secondary mt-3"></button>
+
+    </div>
+  </div>

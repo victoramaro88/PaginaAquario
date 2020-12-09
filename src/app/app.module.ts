@@ -11,6 +11,7 @@ import {MessageModule} from 'primeng/message';
 import {BlockUIModule} from 'primeng/blockui';
 import {ProgressBarModule} from 'primeng/progressbar';
 import {InputSwitchModule} from 'primeng/inputswitch';
+import {ToggleButtonModule} from 'primeng/togglebutton';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -35,7 +36,8 @@ import { HomeComponent } from './pages/home/home.component';
     MessageModule,
     BlockUIModule,
     ProgressBarModule,
-    InputSwitchModule
+    InputSwitchModule,
+    ToggleButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]
