@@ -12,4 +12,5 @@ export class ConfigAquarioModel {
   flagResfriador: boolean;
   flagEncher: boolean;
   flagEsvaziar: boolean;
+  senhaSecundária: string;
 }

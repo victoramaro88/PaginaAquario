@@ -6,6 +6,7 @@
     <div class="col-12 text-center mt-4">
       <h4>INFORMAÇÕES:</h4>
 
+      <!-- PÁGINA INICIAL -->
       <div *ngIf="!flagEditarParametros" class="container mt-3">
         <!-- ÚLTIMA ATUALIZAÇÃO -->
         <div class="row">
@@ -83,6 +84,7 @@
         </div>
       </div>
 
+      <!-- EDITAR PARÂMETROS -->
       <div *ngIf="flagEditarParametros" class="container mt-3">
 
         <!-- ILUMINAÇÃO -->
@@ -125,8 +127,10 @@
           </div>
           <div class="col-6 text-left" style="margin-left: -25px;">
 
-            <button (click)="AlteraStatusFlag('BOMBADEAGUA')" *ngIf="valoresNovos.flagEncher" pButton pRipple type="button" label="Ligado" class="p-button-raised p-button-success"></button>
-            <button (click)="AlteraStatusFlag('BOMBADEAGUA')" *ngIf="!valoresNovos.flagEncher" pButton pRipple type="button" label="Desligado" class="p-button-raised p-button-danger"></button>
+            <!-- <button data-toggle="modal" data-target="#modalMensagem" (click)="AlteraStatusFlag('BOMBADEAGUA')" *ngIf="valoresNovos.flagEncher" pButton pRipple type="button" label="Ligado" class="p-button-raised p-button-success"></button>
+            <button data-toggle="modal" data-target="#modalMensagem" (click)="AlteraStatusFlag('BOMBADEAGUA')" *ngIf="!valoresNovos.flagEncher" pButton pRipple type="button" label="Desligado" class="p-button-raised p-button-danger"></button> -->
+            <button data-toggle="modal" data-target="#modalMensagem" *ngIf="valoresNovos.flagEncher" pButton pRipple type="button" label="Ligado" class="p-button-raised p-button-success"></button>
+            <button data-toggle="modal" data-target="#modalMensagem" *ngIf="!valoresNovos.flagEncher" pButton pRipple type="button" label="Desligado" class="p-button-raised p-button-danger"></button>
           </div>
         </div>
 
@@ -135,5 +139,37 @@
 
       <button *ngIf="!flagEditarParametros" (click)="flagEditarParametros = !flagEditarParametros; valoresNovos = valoresRetorno;" pButton pRipple type="button" label="Editar Parâmetros" class="p-button-raised p-button-secondary mt-3"></button>
 
+    </div>
+  </div>
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="modalMensagem" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Atenção!</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="exampleInputPassword1">Senha Secundária</label>
+              <input [(ngModel)]="senhaSecundariaForm" name="senhaSecundariaForm" type="password" class="form-control" id="exampleInputPassword1" placeholder="Senha">
+            </div>
+            <!-- <div class="form-group form-check">
+              <input type="checkbox" class="form-check-input" id="exampleCheck1">
+              <label class="form-check-label" for="exampleCheck1">Clique em mim</label>
+            </div>
+            <button type="submit" class="btn btn-primary">Enviar</button> -->
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+          <button (click)="AlteraStatusFlag('BOMBADEAGUA')" type="button" class="btn btn-primary">Enviar</button>
+        </div>
+      </div>
     </div>
   </div>
