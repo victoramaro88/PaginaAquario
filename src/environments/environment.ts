@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   urlAPI: 'https://www.victoramaro.com.br/Aquario/API/api/',
+  // urlAPI: 'http://localhost:52920/api/',
 };
 
 /*

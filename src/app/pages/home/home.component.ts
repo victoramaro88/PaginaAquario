@@ -119,4 +119,8 @@ export class HomeComponent implements OnInit {
         clearInterval(this.intervalo);
       }
     }
+
+    Logout() {
+      this.router.navigate(['login']);
+    }
   }
