@@ -1,3 +1,19 @@
 .pointer {
   cursor: pointer;
 }
+
+a.pointer:hover{
+  background-color: rgb(112, 112, 112);
+}
+
+.validaInput {
+  border-color:red;
+}
+
+.botoesFunc button {
+  width: 100px;
+}
+
+.infoBtn {
+  width: 80px;
+}

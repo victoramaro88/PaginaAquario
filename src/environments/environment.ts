@@ -4,8 +4,11 @@
 
 export const environment = {
   production: false,
-  urlAPI: 'https://www.victoramaro.com.br/Aquario/API/api/',
-  // urlAPI: 'http://localhost:52920/api/',
+  // urlAPI: 'https://www.victoramaro.com.br/Aquario/API/api/',
+  urlAPI: 'http://localhost:52920/api/',
+  usrLogin: 'amaro.victor',
+  senhaLogin: 'Amaro1988',
+  senhaSecundaria: 'M!nh0c@1988'
 };
 
 /*

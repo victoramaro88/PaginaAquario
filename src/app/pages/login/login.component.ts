@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Servicos } from 'src/app/Services/servicos.service';
 import {MessageService} from 'primeng/api';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -24,6 +25,8 @@ export class LoginComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
+      this.senha = environment.senhaLogin;
+      this.usuario = environment.usrLogin;
     }
 
     LogarUsuario() {

@@ -25,4 +25,12 @@ export class Servicos {
     public GetValores() {
       return this.http.get<ConfigAquarioModel>(`${environment.urlAPI}Config/RetornaInfo`);
     }
+
+    public VerificaSenhaSecundaria(idConf: number, snhSec: string) {
+      return this.http.get<boolean>(`${environment.urlAPI}Config/VerificaSenhaSecundaria/${idConf}/${snhSec}`);
+    }
+
+    public AtivaFuncoes(idConf: number, funcionalidade: string, flag: boolean) {
+      return this.http.get<string>(`${environment.urlAPI}Config/AtivaFuncoes/${idConf}/${funcionalidade}/${flag}`);
+    }
   }

@@ -7,10 +7,13 @@ export class ConfigAquarioModel {
   tempMaxResfr: number;
   tempMinAquec: number;
   tempDesliga: number;
+  iluminHoraLiga: string;
+  iluminHoraDesliga: string;
+  flagCirculador: boolean;
+  flagBolhas: boolean;
   flagIluminacao: boolean;
   flagAquecedor: boolean;
   flagResfriador: boolean;
   flagEncher: boolean;
-  flagEsvaziar: boolean;
   senhaSecundária: string;
 }
