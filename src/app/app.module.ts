@@ -4,6 +4,8 @@ import { NgModule } from '@angular/core';
 import { FormsModule }   from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
+import { NgxMaskModule, IConfig } from 'ngx-mask'
+
 import {ButtonModule} from 'primeng/button';
 import {PasswordModule} from 'primeng/password';
 import {MessagesModule} from 'primeng/messages';
@@ -12,11 +14,14 @@ import {BlockUIModule} from 'primeng/blockui';
 import {ProgressBarModule} from 'primeng/progressbar';
 import {InputSwitchModule} from 'primeng/inputswitch';
 import {ToggleButtonModule} from 'primeng/togglebutton';
+import {TabViewModule} from 'primeng/tabview';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
 import { HomeComponent } from './pages/home/home.component';
+
+export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
 
 @NgModule({
   declarations: [
@@ -37,7 +42,9 @@ import { HomeComponent } from './pages/home/home.component';
     BlockUIModule,
     ProgressBarModule,
     InputSwitchModule,
-    ToggleButtonModule
+    ToggleButtonModule,
+    TabViewModule,
+    NgxMaskModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

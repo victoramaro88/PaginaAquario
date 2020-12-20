@@ -24,6 +24,7 @@ export class HomeComponent implements OnInit {
   senhaSecundariaForm = '';
   validaCampoSenhaSec = true;
   senhaSecundariaInvalida = false;
+  indexTab = 0;
 
   constructor(
     private router: Router,
@@ -37,6 +38,19 @@ export class HomeComponent implements OnInit {
       this.SetarCarregamentoAutomático();
     }
 
+    // ->TIMER
+    timeLeft: number = 5;
+    interval;
+    startTimer() {
+      this.interval = setInterval(() => {
+        if(this.timeLeft > 0) {
+          this.timeLeft--;
+        } else {
+          this.timeLeft = 5;
+        }
+      },1000)
+    }
+
     CarregaInformacoes() {
       this.blocked = true;
       this.httpServicos.GetValores().subscribe((ret: ConfigAquarioModel) => {
@@ -44,6 +58,7 @@ export class HomeComponent implements OnInit {
         this.valoresRetorno = ret;
         console.log(this.valoresRetorno);
         this.blocked = false;
+        this.startTimer();
       }, (err) => {
         // console.log(err.error);
         this.blocked = false;
@@ -62,6 +77,7 @@ export class HomeComponent implements OnInit {
           this.blocked = false;
           this.messageService.add({severity:'error', summary:'Erro: ', detail: err.error});
         });
+        this.timeLeft -= 1;
       }, 5000);
     }
 
@@ -132,6 +148,9 @@ export class HomeComponent implements OnInit {
       if (this.intervalo) {
         clearInterval(this.intervalo);
       }
+      if(this.interval) {
+        clearInterval(this.interval);
+      }
     }
 
     Logout() {
@@ -142,5 +161,9 @@ export class HomeComponent implements OnInit {
       setTimeout(()=>{
         this.msgs = [];
       }, tempoMilis);
+    }
+
+    CancelaOpParametros() {
+      this.indexTab = 0;
     }
   }

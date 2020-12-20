@@ -6,18 +6,24 @@
 
 <div class="container-fluid mt-4">
   <!-- <h2 class="text-center">Sistema Aquário</h2> -->
-  <div class="row">
+  <div class="row text-center">
     <p-blockUI [blocked]="blocked"></p-blockUI>
     <div class="col-12 text-center mt-4">
       <p-messages [(value)]="msgs"></p-messages>
-      <h4>INFORMAÇÕES:</h4>
 
       <!-- PÁGINA INICIAL -->
       <div *ngIf="!flagEditarParametros" class="container mt-3">
+        <h4>INFORMAÇÕES:</h4>
         <!-- ÚLTIMA ATUALIZAÇÃO -->
         <div class="row">
           <div class="col-12 text-center mb-3">
             <small>(Atualizado em: {{valoresRetorno.dataAtualizacao}})</small>
+          </div>
+        </div>
+        <!-- TIMER ATUALIZAÇÃO -->
+        <div class="row">
+          <div class="col-12 text-center mb-2">
+            <p>Atualizando em: {{timeLeft}} segundo(s).</p>
           </div>
         </div>
         <!-- TEMPERATURA -->
@@ -30,14 +36,14 @@
           </div>
         </div>
         <!-- LOCAL -->
-        <div class="row mb-2">
+        <!-- <div class="row mb-2">
           <div class="col-6 text-right">
             Local:
           </div>
           <div class="col-6 text-left infoBtn" style="padding-left: 35px;">
             {{valoresRetorno.descLocal}}
           </div>
-        </div>
+        </div> -->
         <!-- CIRCULADOR -->
         <div class="row mb-2">
           <div class="col-6 text-right">
@@ -100,87 +106,134 @@
         </div>
       </div>
 
-      <!-- EDITAR PARÂMETROS -->
+
+
       <div *ngIf="flagEditarParametros" class="container mt-3">
+        <h4>PARÂMETROS:</h4>
+        <div class="row text-center">
+          <div class="col-lg-3"></div>
+          <div class="col-lg-6">
+            <p-tabView [(activeIndex)]="indexTab">
+              <p-tabPanel header="FUNIONALIDADES">
+                <!-- BOTÕES -->
+                <div class="botoesFunc">
+                  <!-- CIRCULAÇÃO -->
+                  <div class="row mb-2">
+                    <div class="col-6 text-right pt-2">
+                      <strong>Circulação:</strong>
+                    </div>
+                    <div class="col-6 text-left" style="margin-left: -25px;">
+                      <button (click)="AlteraStatusFlag('flagCirculador', !valoresNovos.flagCirculador); valoresNovos.flagCirculador = !valoresNovos.flagCirculador;" *ngIf="valoresNovos.flagCirculador" pButton pRipple type="button" label="Ligado" class="p-button-raised p-button-success"></button>
+                      <button (click)="AlteraStatusFlag('flagCirculador', !valoresNovos.flagCirculador); valoresNovos.flagCirculador = !valoresNovos.flagCirculador;" *ngIf="!valoresNovos.flagCirculador" pButton pRipple type="button" label="Desligado" class="p-button-raised p-button-danger"></button>
+                    </div>
+                  </div>
 
-        <!-- BOTÕES -->
-        <div class="botoesFunc">
-          <!-- CIRCULAÇÃO -->
-          <div class="row mb-2">
-            <div class="col-6 text-right pt-2">
-              <strong>Circulação:</strong>
-            </div>
-            <div class="col-6 text-left" style="margin-left: -25px;">
-              <button (click)="AlteraStatusFlag('flagCirculador', !valoresNovos.flagCirculador); valoresNovos.flagCirculador = !valoresNovos.flagCirculador;" *ngIf="valoresNovos.flagCirculador" pButton pRipple type="button" label="Ligado" class="p-button-raised p-button-success"></button>
-              <button (click)="AlteraStatusFlag('flagCirculador', !valoresNovos.flagCirculador); valoresNovos.flagCirculador = !valoresNovos.flagCirculador;" *ngIf="!valoresNovos.flagCirculador" pButton pRipple type="button" label="Desligado" class="p-button-raised p-button-danger"></button>
-            </div>
-          </div>
+                  <!-- BOLHAS -->
+                  <div class="row mb-2">
+                    <div class="col-6 text-right pt-2">
+                      <strong>Bolhas:</strong>
+                    </div>
+                    <div class="col-6 text-left" style="margin-left: -25px;">
+                      <button (click)="AlteraStatusFlag('flagBolhas', !valoresNovos.flagBolhas); valoresNovos.flagBolhas = !valoresNovos.flagBolhas;" *ngIf="valoresNovos.flagBolhas" pButton pRipple type="button" label="Ligado" class="p-button-raised p-button-success"></button>
+                      <button (click)="AlteraStatusFlag('flagBolhas', !valoresNovos.flagBolhas); valoresNovos.flagBolhas = !valoresNovos.flagBolhas;" *ngIf="!valoresNovos.flagBolhas" pButton pRipple type="button" label="Desligado" class="p-button-raised p-button-danger"></button>
+                    </div>
+                  </div>
 
-          <!-- BOLHAS -->
-          <div class="row mb-2">
-            <div class="col-6 text-right pt-2">
-              <strong>Bolhas:</strong>
-            </div>
-            <div class="col-6 text-left" style="margin-left: -25px;">
-              <button (click)="AlteraStatusFlag('flagBolhas', !valoresNovos.flagBolhas); valoresNovos.flagBolhas = !valoresNovos.flagBolhas;" *ngIf="valoresNovos.flagBolhas" pButton pRipple type="button" label="Ligado" class="p-button-raised p-button-success"></button>
-              <button (click)="AlteraStatusFlag('flagBolhas', !valoresNovos.flagBolhas); valoresNovos.flagBolhas = !valoresNovos.flagBolhas;" *ngIf="!valoresNovos.flagBolhas" pButton pRipple type="button" label="Desligado" class="p-button-raised p-button-danger"></button>
-            </div>
-          </div>
+                  <!-- ILUMINAÇÃO -->
+                  <div class="row mb-2">
+                    <div class="col-6 text-right pt-2">
+                      <strong>Iluminação:</strong>
+                    </div>
+                    <div class="col-6 text-left" style="margin-left: -25px;">
+                      <button (click)="AlteraStatusFlag('flagIluminacao', !valoresNovos.flagIluminacao); valoresNovos.flagIluminacao = !valoresNovos.flagIluminacao;" *ngIf="valoresNovos.flagIluminacao" pButton pRipple type="button" label="Ligado" class="p-button-raised p-button-success"></button>
+                      <button (click)="AlteraStatusFlag('flagIluminacao', !valoresNovos.flagIluminacao); valoresNovos.flagIluminacao = !valoresNovos.flagIluminacao;" *ngIf="!valoresNovos.flagIluminacao" pButton pRipple type="button" label="Desligado" class="p-button-raised p-button-danger"></button>
+                    </div>
+                  </div>
 
-          <!-- ILUMINAÇÃO -->
-          <div class="row mb-2">
-            <div class="col-6 text-right pt-2">
-              <strong>Iluminação:</strong>
-            </div>
-            <div class="col-6 text-left" style="margin-left: -25px;">
-              <button (click)="AlteraStatusFlag('flagIluminacao', !valoresNovos.flagIluminacao); valoresNovos.flagIluminacao = !valoresNovos.flagIluminacao;" *ngIf="valoresNovos.flagIluminacao" pButton pRipple type="button" label="Ligado" class="p-button-raised p-button-success"></button>
-              <button (click)="AlteraStatusFlag('flagIluminacao', !valoresNovos.flagIluminacao); valoresNovos.flagIluminacao = !valoresNovos.flagIluminacao;" *ngIf="!valoresNovos.flagIluminacao" pButton pRipple type="button" label="Desligado" class="p-button-raised p-button-danger"></button>
-            </div>
-          </div>
+                  <!-- AQUECEDOR -->
+                  <div class="row mb-2">
+                    <div class="col-6 text-right pt-2">
+                      <strong>Aquecedor:</strong>
+                    </div>
+                    <div class="col-6 text-left" style="margin-left: -25px;">
+                      <button (click)="AlteraStatusFlag('flagAquecedor', !valoresNovos.flagAquecedor); valoresNovos.flagAquecedor = !valoresNovos.flagAquecedor;" *ngIf="valoresNovos.flagAquecedor" pButton pRipple type="button" label="Ligado" class="p-button-raised p-button-success"></button>
+                      <button (click)="AlteraStatusFlag('flagAquecedor', !valoresNovos.flagAquecedor); valoresNovos.flagAquecedor = !valoresNovos.flagAquecedor;" *ngIf="!valoresNovos.flagAquecedor" pButton pRipple type="button" label="Desligado" class="p-button-raised p-button-danger"></button>
+                    </div>
+                  </div>
 
-          <!-- AQUECEDOR -->
-          <div class="row mb-2">
-            <div class="col-6 text-right pt-2">
-              <strong>Aquecedor:</strong>
-            </div>
-            <div class="col-6 text-left" style="margin-left: -25px;">
-              <button (click)="AlteraStatusFlag('flagAquecedor', !valoresNovos.flagAquecedor); valoresNovos.flagAquecedor = !valoresNovos.flagAquecedor;" *ngIf="valoresNovos.flagAquecedor" pButton pRipple type="button" label="Ligado" class="p-button-raised p-button-success"></button>
-              <button (click)="AlteraStatusFlag('flagAquecedor', !valoresNovos.flagAquecedor); valoresNovos.flagAquecedor = !valoresNovos.flagAquecedor;" *ngIf="!valoresNovos.flagAquecedor" pButton pRipple type="button" label="Desligado" class="p-button-raised p-button-danger"></button>
-            </div>
-          </div>
+                  <!-- RESFRIADOR -->
+                  <div class="row mb-2">
+                    <div class="col-6 text-right pt-2">
+                      <strong>Resfriador:</strong>
+                    </div>
+                    <div class="col-6 text-left" style="margin-left: -25px;">
+                      <button (click)="AlteraStatusFlag('flagResfriador', !valoresNovos.flagResfriador); valoresNovos.flagResfriador = !valoresNovos.flagResfriador;" *ngIf="valoresNovos.flagResfriador" pButton pRipple type="button" label="Ligado" class="p-button-raised p-button-success"></button>
+                      <button (click)="AlteraStatusFlag('flagResfriador', !valoresNovos.flagResfriador); valoresNovos.flagResfriador = !valoresNovos.flagResfriador;" *ngIf="!valoresNovos.flagResfriador" pButton pRipple type="button" label="Desligado" class="p-button-raised p-button-danger"></button>
+                    </div>
+                  </div>
 
-          <!-- RESFRIADOR -->
-          <div class="row mb-2">
-            <div class="col-6 text-right pt-2">
-              <strong>Resfriador:</strong>
-            </div>
-            <div class="col-6 text-left" style="margin-left: -25px;">
-              <button (click)="AlteraStatusFlag('flagResfriador', !valoresNovos.flagResfriador); valoresNovos.flagResfriador = !valoresNovos.flagResfriador;" *ngIf="valoresNovos.flagResfriador" pButton pRipple type="button" label="Ligado" class="p-button-raised p-button-success"></button>
-              <button (click)="AlteraStatusFlag('flagResfriador', !valoresNovos.flagResfriador); valoresNovos.flagResfriador = !valoresNovos.flagResfriador;" *ngIf="!valoresNovos.flagResfriador" pButton pRipple type="button" label="Desligado" class="p-button-raised p-button-danger"></button>
-            </div>
+                  <!-- BOMBA DE ÁGUA -->
+                  <div class="row mb-2">
+                    <div class="col-6 text-right pt-2">
+                      <strong>Bomba de Água:</strong>
+                    </div>
+                    <div class="col-6 text-left" style="margin-left: -25px;">
+                      <button (click)="AlteraStatusFlag('flagEncher', !valoresNovos.flagEncher); valoresNovos.flagEncher = !valoresNovos.flagEncher;" *ngIf="valoresNovos.flagEncher" pButton pRipple type="button" label="Ligado" class="p-button-raised p-button-success"></button>
+                      <button (click)="AlteraStatusFlag('flagEncher', !valoresNovos.flagEncher); valoresNovos.flagEncher = !valoresNovos.flagEncher;" *ngIf="!valoresNovos.flagEncher" pButton pRipple type="button" label="Desligado" class="p-button-raised p-button-danger"></button>
+                    </div>
+                  </div>
+                </div>
+              </p-tabPanel>
+              <p-tabPanel header="PARÂMETROS">
+                <form>
+                  <div class="form-group row">
+                    <label for="inputTempMaxResf" class="col-sm-7 col-form-label text-center">Temperatura máx. resfriar (°C):</label>
+                    <div class="col-sm-5 text-left">
+                      <input [(ngModel)]="valoresNovos.tempMaxResfr" name="tempMaxResfr" [mask]="'00,00'" type="text" class="form-control text-center" id="inputTempMaxResf" placeholder="0">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="inputTempMinResf" class="col-sm-7 col-form-label text-center">Temperatura mín. aquecer (°C):</label>
+                    <div class="col-sm-5 text-left">
+                      <input [(ngModel)]="valoresNovos.tempMinAquec" name="tempMinAquec" [mask]="'00,00'" type="text" class="form-control text-center" id="inputTempMinResf" placeholder="0">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="inputTempDesl" class="col-sm-7 col-form-label text-center">Temperatura para desligar (°C):</label>
+                    <div class="col-sm-5 text-left">
+                      <input [(ngModel)]="valoresNovos.tempDesliga" name="tempDesliga" [mask]="'00,00'" type="text" class="form-control text-center" id="inputTempDesl" placeholder="0">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="inputHrLigaLuz" class="col-sm-7 col-form-label text-center">Hora p/ ligar luzes:</label>
+                    <div class="col-sm-5 text-left">
+                      <input [(ngModel)]="valoresNovos.iluminHoraLiga" name="iluminHoraLiga" [mask]="'00:00'" type="text" class="form-control text-center" id="inputHrLigaLuz" placeholder="00:00">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label for="inputHrDesligaLuz" class="col-sm-7 col-form-label text-center">Hora p/ desligar luzes:</label>
+                    <div class="col-sm-5 text-left">
+                      <input [(ngModel)]="valoresNovos.iluminHoraDesliga" name="iluminHoraDesliga" [mask]="'00:00'" type="text" class="form-control text-center" id="inputHrDesligaLuz" placeholder="00:00">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <div class="col-12 text-right">
+                      <button (click)="CancelaOpParametros();" type="button" class="btn btn-danger mr-3">Cancelar</button>
+                      <button type="submit" class="btn btn-primary">Salvar</button>
+                    </div>
+                  </div>
+                </form>
+              </p-tabPanel>
+            </p-tabView>
           </div>
-
-          <!-- BOMBA DE ÁGUA -->
-          <div class="row mb-2">
-            <div class="col-6 text-right pt-2">
-              <strong>Bomba de Água:</strong>
-            </div>
-            <div class="col-6 text-left" style="margin-left: -25px;">
-              <button (click)="AlteraStatusFlag('flagEncher', !valoresNovos.flagEncher); valoresNovos.flagEncher = !valoresNovos.flagEncher;" *ngIf="valoresNovos.flagEncher" pButton pRipple type="button" label="Ligado" class="p-button-raised p-button-success"></button>
-              <button (click)="AlteraStatusFlag('flagEncher', !valoresNovos.flagEncher); valoresNovos.flagEncher = !valoresNovos.flagEncher;" *ngIf="!valoresNovos.flagEncher" pButton pRipple type="button" label="Desligado" class="p-button-raised p-button-danger"></button>
-            </div>
-          </div>
+          <div class="col-lg-3"></div>
         </div>
-
-        <!-- AJUSTES -->
-        <div class="row">
-          <!-- <p>Ajustes:</p> -->
-        </div>
-
       </div>
 
-      <button *ngIf="flagEditarParametros" (click)="flagEditarParametros = !flagEditarParametros" pButton pRipple type="button" label="Voltar" class="p-button-raised p-button-info mt-3"></button>
-      <button data-toggle="modal" data-target="#modalMensagem" *ngIf="!flagEditarParametros" (click)="EditarParametros()" pButton pRipple type="button" label="Editar Parâmetros" class="p-button-raised p-button-secondary mt-3"></button>
+      <div class="col-12 text-center">
+        <button *ngIf="flagEditarParametros" (click)="flagEditarParametros = !flagEditarParametros" pButton pRipple type="button" label="Voltar" class="p-button-raised p-button-info mt-3"></button>
+        <button data-toggle="modal" data-target="#modalMensagem" *ngIf="!flagEditarParametros" (click)="EditarParametros()" pButton pRipple type="button" label="Editar Parâmetros" class="p-button-raised p-button-secondary mt-3"></button>
+      </div>
 
     </div>
   </div>
