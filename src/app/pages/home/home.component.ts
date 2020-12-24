@@ -165,5 +165,25 @@ export class HomeComponent implements OnInit {
 
     CancelaOpParametros() {
       this.indexTab = 0;
+      this.valoresNovos.tempMaxResfr = this.valoresRetorno.tempMaxResfr;
+      this.valoresNovos.tempMinAquec = this.valoresRetorno.tempMinAquec;
+      this.valoresNovos.tempDesliga = this.valoresRetorno.tempDesliga;
+      this.valoresNovos.iluminHoraLiga = this.valoresRetorno.iluminHoraLiga;
+      this.valoresNovos.iluminHoraDesliga = this.valoresRetorno.iluminHoraDesliga;
+    }
+
+    SalvaOpcoes() {
+      // ->FAZER VALIDAÇÃO DOS CAMPOS AQUI!
+
+      // ->Formatando a temperatura
+      this.valoresNovos.tempMaxResfr = this.valoresNovos.tempMaxResfr / 100;
+      this.valoresNovos.tempMinAquec = this.valoresNovos.tempMinAquec / 100;
+      this.valoresNovos.tempDesliga = this.valoresNovos.tempDesliga / 100;
+
+      // ->Formatando a hora
+      // ->FAZER AQUI!
+
+
+      console.log(this.valoresNovos);
     }
   }

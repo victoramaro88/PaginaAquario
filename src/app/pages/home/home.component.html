@@ -184,7 +184,7 @@
                   </div>
                 </div>
               </p-tabPanel>
-              <p-tabPanel header="PARÂMETROS">
+              <p-tabPanel header="OPÇÕES">
                 <form>
                   <div class="form-group row">
                     <label for="inputTempMaxResf" class="col-sm-7 col-form-label text-center">Temperatura máx. resfriar (°C):</label>
@@ -219,7 +219,7 @@
                   <div class="form-group row">
                     <div class="col-12 text-right">
                       <button (click)="CancelaOpParametros();" type="button" class="btn btn-danger mr-3">Cancelar</button>
-                      <button type="submit" class="btn btn-primary">Salvar</button>
+                      <button (click)="SalvaOpcoes();" type="submit" class="btn btn-primary">Salvar</button>
                     </div>
                   </div>
                 </form>
@@ -232,7 +232,7 @@
 
       <div class="col-12 text-center">
         <button *ngIf="flagEditarParametros" (click)="flagEditarParametros = !flagEditarParametros" pButton pRipple type="button" label="Voltar" class="p-button-raised p-button-info mt-3"></button>
-        <button data-toggle="modal" data-target="#modalMensagem" *ngIf="!flagEditarParametros" (click)="EditarParametros()" pButton pRipple type="button" label="Editar Parâmetros" class="p-button-raised p-button-secondary mt-3"></button>
+        <button data-toggle="modal" data-target="#modalMensagem" *ngIf="!flagEditarParametros" (click)="EditarParametros()" pButton pRipple type="button" label="Alterar Parâmetros" class="p-button-raised p-button-secondary mt-3"></button>
       </div>
 
     </div>
