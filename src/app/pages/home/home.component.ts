@@ -15,6 +15,7 @@ declare var $ : any; //-> Usando jquery.
 })
 
 export class HomeComponent implements OnInit {
+  idUsr = 0;
   msgs = [];
   blocked = false;
   valoresRetorno: ConfigAquarioModel = new ConfigAquarioModel();
@@ -33,6 +34,7 @@ export class HomeComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
+      this.idUsr = +sessionStorage.getItem('idUsr');
       this.senhaSecundariaForm = environment.senhaSecundaria;
       this.CarregaInformacoes();
       this.SetarCarregamentoAutomático();
@@ -56,13 +58,17 @@ export class HomeComponent implements OnInit {
       this.httpServicos.GetValores().subscribe((ret: ConfigAquarioModel) => {
         // console.log(ret);
         this.valoresRetorno = ret;
-        console.log(this.valoresRetorno);
+        // console.log(this.valoresRetorno);
         this.blocked = false;
         this.startTimer();
       }, (err) => {
         // console.log(err.error);
         this.blocked = false;
-        this.messageService.add({severity:'error', summary:'Erro: ', detail: err.error});
+        if(err.status === 0) {
+          this.messageService.add({severity:'error', summary:'Erro: ', detail: 'Falha na conexão com o banco de dados, saia e entre novamente.'});
+        } else {
+          this.messageService.add({severity:'error', summary:'Erro: ', detail: err.message});
+        }
       });
     }
 
@@ -73,9 +79,13 @@ export class HomeComponent implements OnInit {
           // console.log(this.valoresRetorno);
           this.blocked = false;
         }, (err) => {
-          // console.log(err.error);
           this.blocked = false;
-          this.messageService.add({severity:'error', summary:'Erro: ', detail: err.error});
+          if(err.status === 0) {
+            this.messageService.add({severity:'error', summary:'Erro: ', detail: 'Falha na conexão com o banco de dados, saia e entre novamente.'});
+          } else {
+            this.messageService.add({severity:'error', summary:'Erro: ', detail: err.message});
+          }
+          clearInterval(this.intervalo);
         });
         this.timeLeft -= 1;
       }, 5000);
@@ -91,7 +101,11 @@ export class HomeComponent implements OnInit {
       }, (err) => {
         // console.log(err.error);
         this.blocked = false;
-        this.messageService.add({severity:'error', summary:'Erro: ', detail: err.error});
+        if(err.status === 0) {
+          this.messageService.add({severity:'error', summary:'Erro: ', detail: 'Falha na conexão com o banco de dados, saia e entre novamente.'});
+        } else {
+          this.messageService.add({severity:'error', summary:'Erro: ', detail: err.message});
+        }
       });
     }
 
@@ -137,7 +151,11 @@ export class HomeComponent implements OnInit {
         }, (err) => {
           // console.log(err.error);
           this.blocked = false;
-          this.messageService.add({severity:'error', summary:'Erro: ', detail: err.message});
+          if(err.status === 0) {
+            this.messageService.add({severity:'error', summary:'Erro: ', detail: 'Falha na conexão com o banco de dados, saia e entre novamente.'});
+          } else {
+            this.messageService.add({severity:'error', summary:'Erro: ', detail: err.message});
+          }
         });
       } else {
         this.validaCampoSenhaSec = false;
@@ -173,17 +191,85 @@ export class HomeComponent implements OnInit {
     }
 
     SalvaOpcoes() {
-      // ->FAZER VALIDAÇÃO DOS CAMPOS AQUI!
+      this.blocked = true;
 
       // ->Formatando a temperatura
-      this.valoresNovos.tempMaxResfr = this.valoresNovos.tempMaxResfr / 100;
-      this.valoresNovos.tempMinAquec = this.valoresNovos.tempMinAquec / 100;
-      this.valoresNovos.tempDesliga = this.valoresNovos.tempDesliga / 100;
+      this.valoresNovos.tempMaxResfr = this.FormataTemperatura(this.valoresNovos.tempMaxResfr);
+      this.valoresNovos.tempMinAquec = this.FormataTemperatura(this.valoresNovos.tempMinAquec);
+      this.valoresNovos.tempDesliga = this.FormataTemperatura(this.valoresNovos.tempDesliga);
 
       // ->Formatando a hora
-      // ->FAZER AQUI!
+      this.valoresNovos.iluminHoraLiga = this.FormataHora(this.valoresNovos.iluminHoraLiga);
+      this.valoresNovos.iluminHoraDesliga = this.FormataHora(this.valoresNovos.iluminHoraDesliga);
 
+      // console.log(this.valoresNovos);
 
-      console.log(this.valoresNovos);
+      if(this.ValidaHora(this.valoresNovos.iluminHoraLiga)) {
+        if(this.ValidaHora(this.valoresNovos.iluminHoraDesliga)) {
+          this.httpServicos.ManterOpcoes(this.valoresNovos.idConfig, this.valoresNovos.tempMaxResfr, this.valoresNovos.tempMinAquec,
+          this.valoresNovos.tempDesliga, this.valoresNovos.iluminHoraLiga, this.valoresNovos.iluminHoraDesliga).subscribe((ret: string) => {
+            // console.log(ret);
+            this.messageService.add({severity:'success', summary:'Informações salvas com sucesso!', detail: ''})
+            this.TimerMensagem(2000);
+            this.blocked = false;
+          }, (err) => {
+            // console.log(err.error);
+            this.blocked = false;
+            this.messageService.add({severity:'error', summary:'Erro: ', detail: err.message});
+          });
+        } else {
+          this.blocked = false;
+          this.messageService.add({severity:'error', summary:'Erro: ', detail: 'Horário de desligar luzes inválida'});
+        }
+      } else {
+        this.blocked = false;
+        this.messageService.add({severity:'error', summary:'Erro: ', detail: 'Horário de ligar luzes inválida'});
+      }
+
     }
+
+    FormataTemperatura(valor: number) {
+      let valorArray = valor.toString().split('.');
+      if(valorArray.length > 1) {
+        if(valorArray[0].length === 1) {
+          valor = valor * 10;
+        }
+        return valor;
+      } else {
+        if(valor.toString().length > 2) {
+          return valor/100;
+        } else {
+          return valor;
+        }
+      }
+    }
+
+    FormataHora(valor: string) {
+      let valorArray = valor.split(':');
+      if(valorArray.length > 1) {
+        return valor;
+      } else {
+        let hora = valor.substring(0, 2);
+        let minuto = valor.substring(2,4);
+        return hora + ':' + minuto;
+      }
+    }
+
+    ValidaHora(valor: string) {
+      let hora = valor.substring(0, 2);
+      let minuto = valor.substring(3,5);
+
+      if(hora.length === 2 && +hora >= 0 && +hora <= 23) {
+        if(minuto.length === 2 && +minuto >= 0 && +minuto <= 60) {
+          return true;
+        }
+        else {
+          return false;
+        }
+      }
+      else {
+        return false;
+      }
+    }
+
   }

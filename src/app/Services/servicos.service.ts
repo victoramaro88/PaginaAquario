@@ -33,4 +33,8 @@ export class Servicos {
     public AtivaFuncoes(idConf: number, funcionalidade: string, flag: boolean) {
       return this.http.get<string>(`${environment.urlAPI}Config/AtivaFuncoes/${idConf}/${funcionalidade}/${flag}`);
     }
+
+    public ManterOpcoes(idConfig: number, tempMaxResfr: number, tempMinAquec: number, tempDesliga: number, iluminHoraLiga: string, iluminHoraDesliga: string) {
+      return this.http.get<string>(`${environment.urlAPI}Config/ManterOpcoes/${idConfig}/${tempMaxResfr}/${tempMinAquec}/${tempDesliga}/${iluminHoraLiga}/${iluminHoraDesliga}`);
+    }
   }

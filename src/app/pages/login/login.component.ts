@@ -39,13 +39,20 @@ export class LoginComponent implements OnInit {
         // console.log('Senha: ' + this.senha);
 
         this.httpServicos.Logar(this.usuario, this.senha).subscribe((ret: any) => {
-          // console.log(ret);
-          this.router.navigate(['/home']);
+          console.log(ret);
+          if(ret.idUsuario > 0) {
+            this.router.navigate(['/home']);
+            sessionStorage.setItem('idUsr', ret.idUsuario);
+          }
           this.blocked = false;
         }, (err) => {
-          // console.log(err.error);
+          console.log(err);
           this.blocked = false;
-          this.messageService.add({severity:'error', summary:'Erro: ', detail: err.error});
+          if(err.status === 0) {
+            this.messageService.add({severity:'error', summary:'Erro: ', detail: 'Falha na conexão com o banco de dados, tente novamente mais tarde.'});
+          } else {
+            this.messageService.add({severity:'error', summary:'Erro: ', detail: err.message});
+          }
         });
       }
       else {
