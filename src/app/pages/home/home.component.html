@@ -19,19 +19,19 @@
     <div class="col-12 text-center mt-4">
       <p-messages [(value)]="msgs"></p-messages>
 
-      <!-- PÁGINA INICIAL -->
+      <!-- INFORMAÇÕES -->
       <div *ngIf="!flagEditarParametros" class="container mt-3">
         <h4>INFORMAÇÕES:</h4>
         <!-- ÚLTIMA ATUALIZAÇÃO -->
         <div class="row">
-          <div class="col-12 text-center mb-3">
+          <div class="col-12 text-center" style="margin-bottom: -2px;">
             <small>(Atualizado em: {{valoresRetorno.dataAtualizacao}})</small>
           </div>
         </div>
         <!-- TIMER ATUALIZAÇÃO -->
         <div class="row">
-          <div class="col-12 text-center mb-2">
-            <p>Atualizando em: {{timeLeft}} segundo(s).</p>
+          <div class="col-12 text-center" style="margin-bottom: -10px;">
+            <small><p>Atualizando em: {{timeLeft}} segundo(s).</p></small>
           </div>
         </div>
         <!-- TEMPERATURA -->
@@ -39,8 +39,8 @@
           <div class="col-6 text-right">
             Temperatura:
           </div>
-          <div class="col-6 text-left" style="padding-left: 30px;">
-            {{valoresRetorno.temperatura}} °C
+          <div class="col-6 text-left" style="padding-left: 25px;">
+            <strong>{{valoresRetorno.temperatura}} °C</strong>
           </div>
         </div>
         <!-- LOCAL -->
@@ -102,7 +102,7 @@
             <span *ngIf="!valoresRetorno.flagResfriador" class="p-tag p-tag-danger infoBtn">Desligado</span>
           </div>
         </div>
-        <!-- BOMDA DE ÁGUA -->
+        <!-- BOMBA DE ÁGUA -->
         <div class="row mb-2">
           <div class="col-6 text-right">
             Bomba de Água:
@@ -112,12 +112,42 @@
             <span *ngIf="!valoresRetorno.flagEncher" class="p-tag p-tag-danger infoBtn">Desligado</span>
           </div>
         </div>
+        <!-- NÍVEL DE ÁGUA -->
+        <div class="row mb-2">
+          <div class="col-6 text-right">
+            Nível de Água:
+          </div>
+          <div class="col-6 text-left">
+            <span *ngIf="valoresRetorno.flagNivelAgua" class="p-tag p-tag-success infoBtn">Normal</span>
+            <span *ngIf="!valoresRetorno.flagNivelAgua" class="p-tag p-tag-warning infoBtn">Baixo</span>
+          </div>
+        </div>
       </div>
 
-
-
+      <!-- PARÂMETROS -->
       <div *ngIf="flagEditarParametros" class="container mt-3">
         <h4>PARÂMETROS:</h4>
+        <!-- ÚLTIMA ATUALIZAÇÃO -->
+        <div class="row">
+          <div class="col-12 text-center" style="margin-bottom: -2px;">
+            <small>(Atualizado em: {{valoresRetorno.dataAtualizacao}})</small>
+          </div>
+        </div>
+        <!-- TIMER ATUALIZAÇÃO -->
+        <div class="row">
+          <div class="col-12 text-center" style="margin-bottom: -10px;">
+            <small><p>Atualizando em: {{timeLeft}} segundo(s).</p></small>
+          </div>
+        </div>
+        <!-- TEMPERATURA -->
+        <div class="row mb-2">
+          <div class="col-6 text-right">
+            Temperatura:
+          </div>
+          <div class="col-6 text-left" style="padding-left: 25px;">
+            <strong>{{valoresRetorno.temperatura}} °C</strong>
+          </div>
+        </div>
         <div class="row text-center">
           <div class="col-lg-3"></div>
           <div class="col-lg-6">

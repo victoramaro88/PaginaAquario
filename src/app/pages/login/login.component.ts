@@ -50,6 +50,8 @@ export class LoginComponent implements OnInit {
           this.blocked = false;
           if(err.status === 0) {
             this.messageService.add({severity:'error', summary:'Erro: ', detail: 'Falha na conexão com o banco de dados, tente novamente mais tarde.'});
+          } else if (err.error === 'Usuário e/ou senha inválidos.') {
+            this.messageService.add({severity:'error', summary:'Erro: ', detail: err.error});
           } else {
             this.messageService.add({severity:'error', summary:'Erro: ', detail: err.message});
           }

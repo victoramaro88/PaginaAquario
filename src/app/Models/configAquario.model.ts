@@ -9,6 +9,7 @@ export class ConfigAquarioModel {
   tempDesliga: number;
   iluminHoraLiga: string;
   iluminHoraDesliga: string;
+  flagNivelAgua: boolean;
   flagCirculador: boolean;
   flagBolhas: boolean;
   flagIluminacao: boolean;
