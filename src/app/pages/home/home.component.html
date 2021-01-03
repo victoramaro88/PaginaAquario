@@ -118,8 +118,10 @@
             Nível de Água:
           </div>
           <div class="col-6 text-left">
-            <span *ngIf="valoresRetorno.flagNivelAgua" class="p-tag p-tag-success infoBtn">Normal</span>
-            <span *ngIf="!valoresRetorno.flagNivelAgua" class="p-tag p-tag-warning infoBtn">Baixo</span>
+            <!-- <span *ngIf="valoresRetorno.flagNivelAgua" class="p-tag p-tag-success infoBtn">Normal</span>
+            <span *ngIf="!valoresRetorno.flagNivelAgua" class="p-tag p-tag-warning infoBtn">Baixo</span> -->
+            <span *ngIf="!valoresRetorno.flagNivelAgua" class="p-tag p-tag-success infoBtn">Normal</span>
+            <span *ngIf="valoresRetorno.flagNivelAgua" class="p-tag p-tag-warning infoBtn">Baixo</span>
           </div>
         </div>
       </div>

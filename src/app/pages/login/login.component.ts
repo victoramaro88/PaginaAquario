@@ -39,7 +39,7 @@ export class LoginComponent implements OnInit {
         // console.log('Senha: ' + this.senha);
 
         this.httpServicos.Logar(this.usuario, this.senha).subscribe((ret: any) => {
-          console.log(ret);
+          // console.log(ret);
           if(ret.idUsuario > 0) {
             this.router.navigate(['/home']);
             sessionStorage.setItem('idUsr', ret.idUsuario);
