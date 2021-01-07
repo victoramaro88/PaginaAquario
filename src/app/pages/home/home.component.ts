@@ -1,9 +1,11 @@
+import { isNull } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit, ɵConsole } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { ConfigAquarioModel } from 'src/app/Models/configAquario.model';
 import { Servicos } from 'src/app/Services/servicos.service';
 import { environment } from 'src/environments/environment';
+import { isNullOrUndefined } from 'util';
 
 declare var $ : any; //-> Usando jquery.
 
@@ -26,6 +28,14 @@ export class HomeComponent implements OnInit {
   validaCampoSenhaSec = true;
   senhaSecundariaInvalida = false;
   indexTab = 0;
+  statusConexao = false;
+  dataAtualizacaoFormatada = '';
+
+  stateOptions = [
+    { label: "Não", value: false },
+    { label: "Sim", value: true }
+  ];
+  valorManual: boolean = false;
 
   constructor(
     private router: Router,
@@ -40,32 +50,32 @@ export class HomeComponent implements OnInit {
       this.SetarCarregamentoAutomático();
     }
 
-    // ->TIMER
-    timeLeft: number = 5;
-    interval;
-    startTimer() {
-      this.interval = setInterval(() => {
-        if(this.timeLeft > 0) {
-          this.timeLeft--;
-        } else {
-          this.timeLeft = 5;
-        }
-      },1000)
-    }
-
     CarregaInformacoes() {
       this.blocked = true;
       this.httpServicos.GetValores().subscribe((ret: ConfigAquarioModel) => {
         // console.log(ret);
         this.valoresRetorno = ret;
         // console.log(this.valoresRetorno);
+        // this.valoresRetorno.dataAtualizacao = new Date(this.valoresRetorno.dataAtualizacao.toString().replace('T', ' '));
+        this.FormataDataAtualizacao(this.valoresRetorno.dataAtualizacao.toString());
+        // this.VerificaStatusConexao(this.valoresRetorno.dataAtualizacao);
+        this.statusConexao = true;
+
+        this.valorManual = this.valoresRetorno.flagManual;
+        this.valoresNovos.flagCirculador = this.valoresRetorno.flagCirculador;
+        this.valoresNovos.flagBolhas = this.valoresRetorno.flagBolhas;
+        this.valoresNovos.flagIluminacao = this.valoresRetorno.flagIluminacao;
+        this.valoresNovos.flagAquecedor = this.valoresRetorno.flagAquecedor;
+        this.valoresNovos.flagResfriador = this.valoresRetorno.flagResfriador;
+        this.valoresNovos.flagEncher = this.valoresRetorno.flagEncher;
+
         this.blocked = false;
-        this.startTimer();
       }, (err) => {
         // console.log(err.error);
         this.blocked = false;
+        this.statusConexao = false;
         if(err.status === 0) {
-          this.messageService.add({severity:'error', summary:'Erro: ', detail: 'Falha na conexão com o banco de dados, saia e entre novamente.'});
+          this.messageService.add({severity:'error', summary:'Erro: ', detail: 'Falha na conexão, aguarde ou saia e tente novamente.'});
         } else {
           this.messageService.add({severity:'error', summary:'Erro: ', detail: err.message});
         }
@@ -73,23 +83,59 @@ export class HomeComponent implements OnInit {
     }
 
     SetarCarregamentoAutomático() {
+      this.blocked = true;
       this.intervalo = setInterval(() => {
         this.httpServicos.GetValores().subscribe((ret: ConfigAquarioModel) => {
           this.valoresRetorno = ret;
           // console.log(this.valoresRetorno);
+          // this.valoresRetorno.dataAtualizacao = new Date(this.valoresRetorno.dataAtualizacao.toString().replace('T', ' '));
+          this.FormataDataAtualizacao(this.valoresRetorno.dataAtualizacao.toString());
+          // this.VerificaStatusConexao(this.valoresRetorno.dataAtualizacao);
+          this.statusConexao = true;
+
+          this.valorManual = this.valoresRetorno.flagManual;
+          this.valoresNovos.flagCirculador = this.valoresRetorno.flagCirculador;
+          this.valoresNovos.flagBolhas = this.valoresRetorno.flagBolhas;
+          this.valoresNovos.flagIluminacao = this.valoresRetorno.flagIluminacao;
+          this.valoresNovos.flagAquecedor = this.valoresRetorno.flagAquecedor;
+          this.valoresNovos.flagResfriador = this.valoresRetorno.flagResfriador;
+          this.valoresNovos.flagEncher = this.valoresRetorno.flagEncher;
+
+          this.messageService.clear();
           this.blocked = false;
         }, (err) => {
+          this.LimpaInformacoes();
           this.blocked = false;
+          this.statusConexao = false;
           if(err.status === 0) {
-            this.messageService.add({severity:'error', summary:'Erro: ', detail: 'Falha na conexão com o banco de dados, saia e entre novamente.'});
+            this.messageService.clear();
+            this.messageService.add({severity:'error', summary:'Erro: ', detail: 'Falha na conexão, aguarde ou saia e tente novamente.'});
           } else {
+            this.messageService.clear();
             this.messageService.add({severity:'error', summary:'Erro: ', detail: err.message});
           }
-          clearInterval(this.intervalo);
         });
-        this.timeLeft -= 1;
       }, 5000);
     }
+
+    FormataDataAtualizacao(data: string) {
+      // console.log(data);
+      // this.dataAtualizacaoFormatada = (data.getDay().toString().length == 1 ? '0' + data.getDay().toString() : data.getDay().toString()) + '/' +
+      // data.getMonth().toString() + 1 + '/' + data.getFullYear().toString() + ' - ' + data.getHours().toString() + ':' + data.getMinutes().toString() +
+      // ':' + data.getSeconds().toString();
+      if(data.length > 0) {
+        this.dataAtualizacaoFormatada = data.substring(8,10) + '/' + data.substring(5,7) + '/' + data.substring(0,4)
+        + '-' + data.substring(11,13) + ':' + data.substring(14,16) + ':' + data.substring(17,19);
+        // console.log(this.dataAtualizacaoFormatada);
+      }
+    }
+
+    // VerificaStatusConexao(valor: Date) {
+    //   let diferenca = new Date().getTime() - valor.getTime();
+    //   // console.log(new Date(diferenca).getSeconds());
+
+    //   this.statusConexao = (new Date(diferenca).getSeconds()) <= 20 ? true : false;
+    // }
 
     AlteraStatusFlag(parametro: string, flag: boolean) {
       this.blocked = true;
@@ -166,13 +212,11 @@ export class HomeComponent implements OnInit {
       if (this.intervalo) {
         clearInterval(this.intervalo);
       }
-      if(this.interval) {
-        clearInterval(this.interval);
-      }
     }
 
     Logout() {
       this.router.navigate(['login']);
+      sessionStorage.clear();
     }
 
     TimerMensagem(tempoMilis: number) {
@@ -188,6 +232,11 @@ export class HomeComponent implements OnInit {
       this.valoresNovos.tempDesliga = this.valoresRetorno.tempDesliga;
       this.valoresNovos.iluminHoraLiga = this.valoresRetorno.iluminHoraLiga;
       this.valoresNovos.iluminHoraDesliga = this.valoresRetorno.iluminHoraDesliga;
+    }
+
+    LimpaInformacoes() {
+      this.valoresRetorno = new ConfigAquarioModel();
+      this.valoresNovos = new ConfigAquarioModel();
     }
 
     SalvaOpcoes() {
@@ -207,69 +256,72 @@ export class HomeComponent implements OnInit {
       if(this.ValidaHora(this.valoresNovos.iluminHoraLiga)) {
         if(this.ValidaHora(this.valoresNovos.iluminHoraDesliga)) {
           this.httpServicos.ManterOpcoes(this.valoresNovos.idConfig, this.valoresNovos.tempMaxResfr, this.valoresNovos.tempMinAquec,
-          this.valoresNovos.tempDesliga, this.valoresNovos.iluminHoraLiga, this.valoresNovos.iluminHoraDesliga).subscribe((ret: string) => {
-            // console.log(ret);
-            this.messageService.add({severity:'success', summary:'Informações salvas com sucesso!', detail: ''})
-            this.TimerMensagem(2000);
+            this.valoresNovos.tempDesliga, this.valoresNovos.iluminHoraLiga, this.valoresNovos.iluminHoraDesliga).subscribe((ret: string) => {
+              // console.log(ret);
+              this.messageService.add({severity:'success', summary:'Informações salvas com sucesso!', detail: ''})
+              this.TimerMensagem(2000);
+              setTimeout(()=>{
+                this.indexTab = 0;
+              }, 2000);
+              this.blocked = false;
+            }, (err) => {
+              // console.log(err.error);
+              this.blocked = false;
+              this.messageService.add({severity:'error', summary:'Erro: ', detail: err.message});
+            });
+          } else {
             this.blocked = false;
-          }, (err) => {
-            // console.log(err.error);
-            this.blocked = false;
-            this.messageService.add({severity:'error', summary:'Erro: ', detail: err.message});
-          });
+            this.messageService.add({severity:'error', summary:'Erro: ', detail: 'Horário de desligar luzes inválida'});
+          }
         } else {
           this.blocked = false;
-          this.messageService.add({severity:'error', summary:'Erro: ', detail: 'Horário de desligar luzes inválida'});
+          this.messageService.add({severity:'error', summary:'Erro: ', detail: 'Horário de ligar luzes inválida'});
         }
-      } else {
-        this.blocked = false;
-        this.messageService.add({severity:'error', summary:'Erro: ', detail: 'Horário de ligar luzes inválida'});
+
       }
 
-    }
-
-    FormataTemperatura(valor: number) {
-      let valorArray = valor.toString().split('.');
-      if(valorArray.length > 1) {
-        if(valorArray[0].length === 1) {
-          valor = valor * 10;
-        }
-        return valor;
-      } else {
-        if(valor.toString().length > 2) {
-          return valor/100;
-        } else {
+      FormataTemperatura(valor: number) {
+        let valorArray = valor.toString().split('.');
+        if(valorArray.length > 1) {
+          if(valorArray[0].length === 1) {
+            valor = valor * 10;
+          }
           return valor;
+        } else {
+          if(valor.toString().length > 2) {
+            return valor/100;
+          } else {
+            return valor;
+          }
         }
       }
-    }
 
-    FormataHora(valor: string) {
-      let valorArray = valor.split(':');
-      if(valorArray.length > 1) {
-        return valor;
-      } else {
-        let hora = valor.substring(0, 2);
-        let minuto = valor.substring(2,4);
-        return hora + ':' + minuto;
+      FormataHora(valor: string) {
+        let valorArray = valor.split(':');
+        if(valorArray.length > 1) {
+          return valor;
+        } else {
+          let hora = valor.substring(0, 2);
+          let minuto = valor.substring(2,4);
+          return hora + ':' + minuto;
+        }
       }
-    }
 
-    ValidaHora(valor: string) {
-      let hora = valor.substring(0, 2);
-      let minuto = valor.substring(3,5);
+      ValidaHora(valor: string) {
+        let hora = valor.substring(0, 2);
+        let minuto = valor.substring(3,5);
 
-      if(hora.length === 2 && +hora >= 0 && +hora <= 23) {
-        if(minuto.length === 2 && +minuto >= 0 && +minuto <= 60) {
-          return true;
+        if(hora.length === 2 && +hora >= 0 && +hora <= 23) {
+          if(minuto.length === 2 && +minuto >= 0 && +minuto <= 60) {
+            return true;
+          }
+          else {
+            return false;
+          }
         }
         else {
           return false;
         }
       }
-      else {
-        return false;
-      }
-    }
 
-  }
+    }

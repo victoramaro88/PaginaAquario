@@ -15,6 +15,7 @@ import {ProgressBarModule} from 'primeng/progressbar';
 import {InputSwitchModule} from 'primeng/inputswitch';
 import {ToggleButtonModule} from 'primeng/togglebutton';
 import {TabViewModule} from 'primeng/tabview';
+import {SelectButtonModule} from 'primeng/selectbutton';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -44,7 +45,8 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
     InputSwitchModule,
     ToggleButtonModule,
     TabViewModule,
-    NgxMaskModule.forRoot()
+    NgxMaskModule.forRoot(),
+    SelectButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]
