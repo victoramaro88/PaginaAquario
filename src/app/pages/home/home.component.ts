@@ -53,13 +53,11 @@ export class HomeComponent implements OnInit {
     CarregaInformacoes() {
       this.blocked = true;
       this.httpServicos.GetValores().subscribe((ret: ConfigAquarioModel) => {
-        // console.log(ret);
         this.valoresRetorno = ret;
         // console.log(this.valoresRetorno);
-        // this.valoresRetorno.dataAtualizacao = new Date(this.valoresRetorno.dataAtualizacao.toString().replace('T', ' '));
         this.FormataDataAtualizacao(this.valoresRetorno.dataAtualizacao.toString());
-        // this.VerificaStatusConexao(this.valoresRetorno.dataAtualizacao);
-        this.statusConexao = true;
+        // this.statusConexao = true;
+        // this.VerificaStatusConexao(new Date(this.valoresRetorno.dataAtualizacao.toString().replace('T', ' ')));
 
         this.valorManual = this.valoresRetorno.flagManual;
         this.valoresNovos.flagCirculador = this.valoresRetorno.flagCirculador;
@@ -88,10 +86,9 @@ export class HomeComponent implements OnInit {
         this.httpServicos.GetValores().subscribe((ret: ConfigAquarioModel) => {
           this.valoresRetorno = ret;
           // console.log(this.valoresRetorno);
-          // this.valoresRetorno.dataAtualizacao = new Date(this.valoresRetorno.dataAtualizacao.toString().replace('T', ' '));
           this.FormataDataAtualizacao(this.valoresRetorno.dataAtualizacao.toString());
-          // this.VerificaStatusConexao(this.valoresRetorno.dataAtualizacao);
-          this.statusConexao = true;
+          // this.statusConexao = true;
+          // this.VerificaStatusConexao(new Date(this.valoresRetorno.dataAtualizacao.toString().replace('T', ' ')));
 
           this.valorManual = this.valoresRetorno.flagManual;
           this.valoresNovos.flagCirculador = this.valoresRetorno.flagCirculador;
@@ -119,23 +116,60 @@ export class HomeComponent implements OnInit {
     }
 
     FormataDataAtualizacao(data: string) {
-      // console.log(data);
-      // this.dataAtualizacaoFormatada = (data.getDay().toString().length == 1 ? '0' + data.getDay().toString() : data.getDay().toString()) + '/' +
-      // data.getMonth().toString() + 1 + '/' + data.getFullYear().toString() + ' - ' + data.getHours().toString() + ':' + data.getMinutes().toString() +
-      // ':' + data.getSeconds().toString();
       if(data.length > 0) {
         this.dataAtualizacaoFormatada = data.substring(8,10) + '/' + data.substring(5,7) + '/' + data.substring(0,4)
         + '-' + data.substring(11,13) + ':' + data.substring(14,16) + ':' + data.substring(17,19);
         // console.log(this.dataAtualizacaoFormatada);
+
+        this.VerificaStatusConexao(data);
       }
     }
 
-    // VerificaStatusConexao(valor: Date) {
-    //   let diferenca = new Date().getTime() - valor.getTime();
-    //   // console.log(new Date(diferenca).getSeconds());
+    VerificaStatusConexao(valor: string) {
+      // console.log(valor);
+      const diaAtual = (new Date().getDate().toString().length === 1) ? '0' + new Date().getDate().toString() : new Date().getDate().toString();
+      const mesAtual = new Date().getMonth().toString() + 1;
+      const anoAtual = new Date().getFullYear().toString();
+      const horaAtual = new Date().getHours().toString();
+      const minutoaAtual = new Date().getMinutes().toString();
+      const segundosaAtual = (new Date().getSeconds().toString().length === 1) ? '0' + new Date().getSeconds().toString() : new Date().getSeconds().toString();
+      // console.log(diaAtual + '/' + mesAtual + '/' + anoAtual + ' - ' + horaAtual + ':' + minutoaAtual + ':' + segundosaAtual);
 
-    //   this.statusConexao = (new Date(diferenca).getSeconds()) <= 20 ? true : false;
-    // }
+      if(valor.substring(8,10) === diaAtual) {
+        if(valor.substring(5,7) === mesAtual) {
+          if(valor.substring(0,4) === anoAtual) {
+            if(valor.substring(11,13) === horaAtual) {
+              if(valor.substring(14,16) === minutoaAtual || (+valor.substring(14,16)) + 1 === +minutoaAtual) {
+                this.statusConexao = true;
+                // let diferencaSegundos = +segundosaAtual - +valor.substring(17,19);
+                // console.log(diferencaSegundos);
+              } else {
+                // console.log('minuto invalido');
+                this.statusConexao = false;
+                this.LimpaInformacoes();
+              }
+            } else {
+              // console.log('hora invalida');
+              this.statusConexao = false;
+              this.LimpaInformacoes();
+            }
+          } else {
+
+            // console.log('ano invalido');
+            this.statusConexao = false;
+            this.LimpaInformacoes();
+          }
+        } else {
+          // console.log('mes invalido');
+          this.statusConexao = false;
+          this.LimpaInformacoes();
+        }
+      } else {
+        // console.log('dia invalido');
+        this.statusConexao = false;
+        this.LimpaInformacoes();
+      }
+    }
 
     AlteraStatusFlag(parametro: string, flag: boolean) {
       this.blocked = true;
