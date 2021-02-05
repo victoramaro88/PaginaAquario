@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { ConfigAquarioModel } from '../Models/configAquario.model';
+import { HistoricoModel } from '../Models/historicoModel';
 
 @Injectable({
   providedIn: 'root'
@@ -36,5 +37,9 @@ export class Servicos {
 
     public ManterOpcoes(idConfig: number, tempMaxResfr: number, tempMinAquec: number, tempDesliga: number, iluminHoraLiga: string, iluminHoraDesliga: string) {
       return this.http.get<string>(`${environment.urlAPI}Config/ManterOpcoes/${idConfig}/${tempMaxResfr}/${tempMinAquec}/${tempDesliga}/${iluminHoraLiga}/${iluminHoraDesliga}`);
+    }
+
+    public RetornaHistorico(dataInicio: Date, dataFim: Date) {
+      return this.http.get<HistoricoModel>(`${environment.urlAPI}Historico/RetornaHistorico/${dataInicio}/${dataFim}`);
     }
   }

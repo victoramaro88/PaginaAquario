@@ -128,7 +128,7 @@ export class HomeComponent implements OnInit {
     VerificaStatusConexao(valor: string) {
       // console.log(valor);
       const diaAtual = (new Date().getDate().toString().length === 1) ? '0' + new Date().getDate().toString() : new Date().getDate().toString();
-      const mesAtual = new Date().getMonth().toString() + 1;
+      const mesAtual = +new Date().getMonth().toString() + 1;
       const anoAtual = new Date().getFullYear().toString();
       const horaAtual = new Date().getHours().toString();
       const minutoaAtual = new Date().getMinutes().toString();
@@ -136,10 +136,10 @@ export class HomeComponent implements OnInit {
       // console.log(diaAtual + '/' + mesAtual + '/' + anoAtual + ' - ' + horaAtual + ':' + minutoaAtual + ':' + segundosaAtual);
 
       if(valor.substring(8,10) === diaAtual) {
-        if(valor.substring(5,7) === mesAtual) {
+        if(+valor.substring(5,7) === mesAtual) {
           if(valor.substring(0,4) === anoAtual) {
             if(valor.substring(11,13) === horaAtual) {
-              if(valor.substring(14,16) === minutoaAtual || (+valor.substring(14,16)) + 1 === +minutoaAtual) {
+              if(valor.substring(14,16) === minutoaAtual || (+valor.substring(14,16)) + 1 === +minutoaAtual || (+valor.substring(14,16)) + 2 === +minutoaAtual) {
                 this.statusConexao = true;
                 // let diferencaSegundos = +segundosaAtual - +valor.substring(17,19);
                 // console.log(diferencaSegundos);
