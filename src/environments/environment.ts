@@ -1,21 +1,13 @@
-// This file can be replaced during build by using the `fileReplacements` array.
-// `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
-// The list of file replacements can be found in `angular.json`.
-
 export const environment = {
   production: false,
-  // urlAPI: 'https://www.victoramaro.com.br/Aquario/API/api/',
-  urlAPI: 'http://localhost:52920/api/',
+  urlAPI: 'http://www.victoramaro.com.br/Aquario/API/api/',
+  // urlAPI: 'http://localhost:52920/api/',
   usrLogin: 'amaro.victor',
   senhaLogin: 'Amaro1988',
-  senhaSecundaria: 'M!nh0c@1988'
+  senhaSecundaria: 'M!nh0c@1988',
+  versao: '1.0.1 - Atualizado em: 03/03/2021 - 12:00:33'
 };
 
 /*
- * For easier debugging in development mode, you can import the following file
- * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
- *
- * This import should be commented out in production mode because it will have a negative impact
- * on performance if an error is thrown.
+  -> v. 1.0.1 - Alteração do layout do rodapé para acompanhar o scroll da tela;
  */
-// import 'zone.js/dist/zone-error';  // Included with Angular CLI.

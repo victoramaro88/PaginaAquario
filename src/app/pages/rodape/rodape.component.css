@@ -1,0 +1,11 @@
+.versaoEstilo {
+  background-color: rgb(128, 128, 128);
+  color: white;
+  margin-left: -15px;
+  width: 100vw;
+  height: 25px;
+  text-align: center;
+  position: fixed;
+	bottom: 0;
+  letter-spacing: 1px;
+}

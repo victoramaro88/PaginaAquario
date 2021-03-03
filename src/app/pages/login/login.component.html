@@ -1,4 +1,8 @@
-<div class="flex-box container-box">
+<div class="logoFloat">
+  <img src="assets/img/logo.png" style="width: 8em;">
+</div>
+
+<div class="flex-box container-box pt-5">
   <div class="content-box">
     <p-blockUI [blocked]="blocked"></p-blockUI>
     <p-messages [(value)]="msgs"></p-messages>
@@ -17,7 +21,7 @@
             <strong><a class="text-danger" *ngIf="validaSenha">Digite a senha.</a></strong>
           </div>
           <div class="text-center mb-3 mt-3">
-            <button (click)="LogarUsuario()" type="submit" class="btn btn-primary" style="width: 180px; height: 50px;">Enviar</button>
+            <button (click)="LogarUsuario()" type="submit" class="btn btn-primary" style="width: 180px; height: 50px;">Acessar</button>
           </div>
           <div *ngIf="blocked">
             <p-progressBar mode="indeterminate" [style]="{'height': '16px','width': '100%', 'margin-bottom':'10px'}"></p-progressBar>

@@ -128,15 +128,20 @@ export class HomeComponent implements OnInit {
     VerificaStatusConexao(valor: string) {
       // console.log(valor);
       const diaAtual = (new Date().getDate().toString().length === 1) ? '0' + new Date().getDate().toString() : new Date().getDate().toString();
-      const mesAtual = +new Date().getMonth().toString() + 1;
+      const mesAtual = ((+new Date().getMonth().toString() + 1).toString().length === 1) ? '0' + (+new Date().getMonth().toString() + 1).toString() : (+new Date().getMonth().toString() + 1).toString();
       const anoAtual = new Date().getFullYear().toString();
-      const horaAtual = new Date().getHours().toString();
-      const minutoaAtual = new Date().getMinutes().toString();
+      const horaAtual = (new Date().getHours().toString().length === 1) ? '0' + new Date().getHours().toString() : new Date().getHours().toString();
+      const minutoaAtual = (new Date().getMinutes().toString().length === 1) ? '0' + new Date().getMinutes().toString() : new Date().getMinutes().toString();
       const segundosaAtual = (new Date().getSeconds().toString().length === 1) ? '0' + new Date().getSeconds().toString() : new Date().getSeconds().toString();
       // console.log(diaAtual + '/' + mesAtual + '/' + anoAtual + ' - ' + horaAtual + ':' + minutoaAtual + ':' + segundosaAtual);
+      // console.log('Dia: '+valor.substring(8,10) + ' / ' + diaAtual);
+      // console.log('Mês: '+valor.substring(5,7) + ' / ' + mesAtual);
+      // console.log('Ano: '+valor.substring(0,4) + ' / ' + anoAtual);
+      // console.log('Hora: '+valor.substring(11,13) + ' / ' + horaAtual);
+      // console.log('Minuto: '+valor.substring(14,16) + ' / ' + minutoaAtual);
 
       if(valor.substring(8,10) === diaAtual) {
-        if(+valor.substring(5,7) === mesAtual) {
+        if(valor.substring(5,7) === mesAtual) {
           if(valor.substring(0,4) === anoAtual) {
             if(valor.substring(11,13) === horaAtual) {
               if(valor.substring(14,16) === minutoaAtual || (+valor.substring(14,16)) + 1 === +minutoaAtual || (+valor.substring(14,16)) + 2 === +minutoaAtual) {

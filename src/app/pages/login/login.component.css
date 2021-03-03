@@ -5,7 +5,7 @@
 }
 
 .container-box {
-  background-color: rgb(188, 253, 250);
+  background-color: rgb(200, 255, 252);
   height: 100vh;
 }
 
@@ -13,4 +13,13 @@
   background-color: rgb(73, 73, 73);
   color: white;
   text-align: center;
+}
+
+.logoFloat {
+  width:100vw;
+  background:transparent;
+  position:absolute;
+  z-index:100;
+  text-align: center;
+  top: 8%;
 }
